@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍼 우리 아기 성장 일지 | 2023년 10월</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --surface: #ffffff;
+      --surface2: #fef0f5;
+      --primary: #ff7eb6;
+      --primary2: #ff5fa0;
+      --accent: #a78bfa;
+      --accent2: #7c3aed;
+      --sky: #60c8f5;
+      --sky2: #0ea5e9;
+      --mint: #4ade80;
+      --mint2: #16a34a;
+      --yellow: #fbbf24;
+      --yellow2: #d97706;
+      --peach: #fb923c;
+      --text: #1e1b2e;
+      --text2: #6b7280;
+      --border: #fce7f3;
+      --shadow: 0 4px 24px rgba(255, 126, 182, 0.12);
+      --shadow2: 0 8px 40px rgba(255, 126, 182, 0.18);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      /* 모바일에서 가로 스크롤 방지 */
+      overflow-x: hidden;
+    }
+
+    /* ── 헤더 ── */
+    header {
+      background: linear-gradient(135deg, #ff7eb6 0%, #a78bfa 60%, #60c8f5 100%);
+      padding: 36px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, .15) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, .1) 0%, transparent 50%);
+    }
+
+    .header-emoji {
+      font-size: 56px;
+      display: block;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .15));
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, .2);
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: rgba(255, 255, 255, .85);
+      font-size: .95rem;
+      margin-top: 6px;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+    }
+
+    /* ── 메인 레이아웃 ── */
+    main {
+      max-width: 1100px;
+      margin: -48px auto 0;
+      padding: 0 20px 60px;
+    }
+
+    /* ── KPI 카드 ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .kpi-card:nth-child(1)::before {
+      background: linear-gradient(90deg, #ff7eb6, #ff5fa0);
+    }
+
+    .kpi-card:nth-child(2)::before {
+      background: linear-gradient(90deg, #a78bfa, #7c3aed);
+    }
+
+    .kpi-card:nth-child(3)::before {
+      background: linear-gradient(90deg, #4ade80, #16a34a);
+    }
+
+    .kpi-card:nth-child(4)::before {
+      background: linear-gradient(90deg, #fbbf24, #d97706);
+    }
+
+    .kpi-card:nth-child(5)::before {
+      background: linear-gradient(90deg, #60c8f5, #0ea5e9);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow2);
+    }
+
+    .kpi-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .kpi-unit {
+      font-size: .7rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-left: 2px;
+    }
+
+    .kpi-label {
+      font-size: .78rem;
+      color: var(--text2);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .kpi-card:nth-child(1) .kpi-value {
+      color: var(--primary2);
+    }
+
+    .kpi-card:nth-child(2) .kpi-value {
+      color: var(--accent2);
+    }
+
+    .kpi-card:nth-child(3) .kpi-value {
+      color: var(--mint2);
+    }
+
+    .kpi-card:nth-child(4) .kpi-value {
+      color: var(--yellow2);
+    }
+
+    .kpi-card:nth-child(5) .kpi-value {
+      color: var(--sky2);
+    }
+
+    /* ── 섹션 타이틀 ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      margin-top: 36px;
+      color: var(--text);
+    }
+
+    .section-title .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ── 차트 카드 ── */
+    .chart-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .chart-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text2);
+      margin-bottom: 16px;
+    }
+
+    .chart-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 260px;
+    }
+
+    .chart-wrap-sm {
+      position: relative;
+      height: 220px;
+    }
+
+    /* ── 수면 차트 ── */
+    .sleep-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── 인사이트 카드 ── */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .insight-card {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      border-left: 4px solid;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform .2s;
+    }
+
+    .insight-card:hover {
+      transform: translateX(4px);
+    }
+
+    .insight-card:nth-child(1) {
+      border-color: var(--primary);
+    }
+
+    .insight-card:nth-child(2) {
+      border-color: var(--accent);
+    }
+
+    .insight-card:nth-child(3) {
+      border-color: var(--mint);
+    }
+
+    .insight-card:nth-child(4) {
+      border-color: var(--sky);
+    }
+
+    .insight-emoji {
+      font-size: 22px;
+    }
+
+    .insight-text {
+      font-size: .85rem;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .insight-text strong {
+      color: var(--primary2);
+    }
+
+    /* ── 테이블 (데스크탑) ── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    thead th {
+      background: linear-gradient(135deg, #fce7f3, #ede9fe);
+      padding: 12px 14px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+
+    tbody tr:hover td {
+      background: var(--surface2);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .tag-high {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .tag-mid {
+      background: #fef9c3;
+      color: #ca8a04;
+    }
+
+    .tag-normal {
+      background: #f0f9ff;
+      color: #0369a1;
+    }
+
+    .poo-icon {
+      color: #a16207;
+    }
+
+    .pee-icon {
+      color: #0ea5e9;
+    }
+
+    /* ── 카드형 목록 (모바일 전용) ── */
+    .card-list {
+      display: none;
+    }
+
+    .card-item {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .card-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .card-date {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .card-day {
+      font-size: .8rem;
+      color: var(--text2);
+      background: var(--surface2);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .card-cell {
+      text-align: center;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 10px 6px;
+    }
+
+    .card-cell-label {
+      font-size: .68rem;
+      color: var(--text2);
+      margin-bottom: 4px;
+    }
+
+    .card-cell-value {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      text-align: center;
+      padding: 28px;
+      color: var(--text2);
+      font-size: .78rem;
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ════════════════════════════════
+       📱 모바일 반응형 (≤ 680px)
+       ════════════════════════════════ */
+    @media (max-width: 680px) {
+
+      /* 헤더 */
+      header {
+        padding: 28px 16px 70px;
+      }
+
+      .header-emoji {
+        font-size: 42px;
+      }
+
+      header h1 {
+        font-size: 1.45rem;
+      }
+
+      header p {
+        font-size: .82rem;
+      }
+
+      /* 메인 패딩 */
+      main {
+        padding: 0 12px 48px;
+        margin-top: -40px;
+      }
+
+      /* KPI: 2열 */
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      /* 5번째 카드는 단독 행 */
+      .kpi-card:nth-child(5) {
+        grid-column: span 2;
+      }
+
+      .kpi-icon {
+        font-size: 26px;
+      }
+
+      .kpi-value {
+        font-size: 1.55rem;
+      }
+
+      .kpi-card {
+        padding: 16px 12px;
+      }
+
+      /* 섹션 타이틀 */
+      .section-title {
+        font-size: 1rem;
+        margin-top: 24px;
+      }
+
+      /* 차트 카드 */
+      .chart-card {
+        padding: 16px 12px;
+      }
+
+      .chart-card h3 {
+        font-size: .85rem;
+      }
+
+      /* 2열 → 1열 */
+      .chart-two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .sleep-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* 차트 높이 축소 */
+      .chart-wrap {
+        height: 200px;
+      }
+
+      .chart-wrap-sm {
+        height: 180px;
+      }
+
+      /* 도넛 카드 width 고정 제거 */
+      .donut-inner {
+        width: 100% !important;
+        max-width: 200px;
+        margin: 0 auto;
+      }
+
+      /* 인사이트 1열 */
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .insight-card {
+        padding: 14px 16px;
+      }
+
+      /* 테이블 숨기고 카드목록 표시 */
+      .table-wrap {
+        display: none;
+      }
+
+      .card-list {
+        display: block;
+      }
+    }
+
+    /* ════════════════════════════════
+       📱 극소형 (≤ 380px)
+       ════════════════════════════════ */
+    @media (max-width: 380px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+
+      .kpi-value {
+        font-size: 1.3rem;
+      }
+
+      .chart-wrap {
+        height: 170px;
+      }
+
+      .chart-wrap-sm {
+        height: 150px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  
+    /* ── 토글 버튼 ── */
+    .toggle-container {
+      display: flex; justify-content: center; margin: 0 auto 24px;
+    }
+    .view-toggle {
+      background: var(--surface2);
+      border-radius: 30px;
+      padding: 4px;
+      display: flex; gap: 4px;
+      border: 1px solid var(--border);
+    }
+    .toggle-btn {
+      padding: 8px 20px;
+      border-radius: 24px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .toggle-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(255,126,182,0.3);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── 헤더 ─── -->
+  <header>
+    <span class="header-emoji">🍼</span>
+    <h1>우리 아기 성장 일지</h1>
+    <p>2023년 10월 ~ 12월 · 생후 5일 ~ 96일 기록</p>
+    <svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#fff5f8" />
+    </svg>
+  </header>
+
+  <main>
+
+    <!-- ─── KPI 카드 ─── -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-icon">🍼</span>
+        <div><span class="kpi-value" id="kpi-daily-ml">-</span><span class="kpi-unit">ml</span></div>
+        <div class="kpi-label">일일 분유 섭취량</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-icon">💧</span>
+        <div><span class="kpi-value" id="kpi-per-ml">-</span><span class="kpi-unit">ml</span></div>
+        <div class="kpi-label">1회당 분유량</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-icon">👶</span>
+        <div><span class="kpi-value" id="kpi-daily-diaper">-</span><span class="kpi-unit">회</span></div>
+        <div class="kpi-label">일일 기저귀 교체</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-icon">😴</span>
+        <div><span class="kpi-value" id="kpi-daily-sleep">-</span><span class="kpi-unit">시간</span></div>
+        <div class="kpi-label">일일 평균 수면</div>
+      </div>
+    </div>
+
+    <!-- ─── 트렌드 토글 (분유수유트렌드 ~ 수면패턴) ─── -->
+    <div class="toggle-container">
+      <div class="view-toggle">
+        <button id="btn-daily" class="toggle-btn active" onclick="toggleView('daily')">일단위</button>
+        <button id="btn-weekly" class="toggle-btn" onclick="toggleView('weekly')">주단위</button>
+      </div>
+    </div>
+
+    <!-- ─── 수유 섹션 ─── -->
+    <div class="section-title">
+      <span class="dot" style="background:var(--primary)"></span>
+      🍼 분유 수유 트렌드
+    </div>
+
+    <div class="chart-card">
+      <h3>일일 총 섭취량(ml) & 수유 횟수 추이</h3>
+      <div class="chart-wrap"><canvas id="formulaBarLine"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>📈 1회 평균 섭취량 성장 곡선 (ml)</h3>
+      <div class="chart-wrap"><canvas id="formulaAvg"></canvas></div>
+    </div>
+
+    <!-- ─── 기저귀 섹션 ─── -->
+    <div class="section-title">
+      <span class="dot" style="background:var(--yellow)"></span>
+      👶 기저귀 현황
+    </div>
+
+    <div class="chart-two-col">
+      <div class="chart-card">
+        <h3>소변 / 대변 일별 현황</h3>
+        <div class="chart-wrap-sm"><canvas id="diaperStack"></canvas></div>
+      </div>
+      <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <h3>18일 누적 소변 / 대변 비율</h3>
+        <div class="chart-wrap-sm donut-inner" style="width:220px"><canvas id="diaperDonut"></canvas></div>
+        <p style="font-size:.8rem;color:var(--text2);margin-top:10px;text-align:center">
+          소변 <strong style="color:var(--sky2)">75회</strong> &nbsp;|&nbsp; 대변 <strong
+            style="color:var(--yellow2)">51회</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── 수면 섹션 ─── -->
+    <div class="section-title">
+      <span class="dot" style="background:var(--sky)"></span>
+      😴 수면 패턴
+    </div>
+
+    <div class="sleep-grid">
+      <div class="chart-card">
+        <h3>낮잠 / 밤잠 시간 비교 (분)</h3>
+        <div class="chart-wrap"><canvas id="sleepBar"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>밤잠 평균 수면 시간 추이 (분)</h3>
+        <div class="chart-wrap"><canvas id="sleepLine"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ─── 인사이트 ─── -->
+    <div class="section-title">
+      <span class="dot" style="background:var(--accent)"></span>
+      💡 성장 인사이트
+    </div>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <span class="insight-emoji">📈</span>
+        <div class="insight-text">분유 1회 섭취량이 18일 만에 <strong>68ml → 110ml</strong>로 <strong>61% 증가</strong>했어요!</div>
+      </div>
+      <div class="insight-card">
+        <span class="insight-emoji">🍼</span>
+        <div class="insight-text">가장 많이 먹은 날은 <strong>생후 27일 (970ml)</strong>이에요</div>
+      </div>
+      <div class="insight-card">
+        <span class="insight-emoji">👶</span>
+        <div class="insight-text">하루 평균 <strong>약 9회</strong> 기저귀 교체 중이에요. (소변 4.2회 + 대변 2.8회)</div>
+      </div>
+      <div class="insight-card">
+        <span class="insight-emoji">🌙</span>
+        <div class="insight-text">생후 29일부터 밤잠이 시작! 평균 수면이 <strong>62분 → 161분</strong>으로 늘었어요</div>
+      </div>
+    </div>
+
+    <!-- ─── 일별 기록 테이블 ─── -->
+    <div class="section-title">
+      <span class="dot" style="background:var(--mint)"></span>
+      📋 일별 상세 기록
+    </div>
+
+    <div class="chart-card">
+      <!-- 데스크탑: 테이블 -->
+      <div class="table-wrap">
+        <table id="detail-table">
+          <thead>
+            <tr>
+              <th>날짜</th>
+              <th>생후</th>
+              <th>🍼 분유 (ml)</th>
+              <th>🍼 횟수</th>
+              <th>📊 1회 평균</th>
+              <th>💧 소변</th>
+              <th>💩 대변</th>
+              <th>🌤 낮잠 (분)</th>
+              <th>🌙 밤잠 (분)</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <!-- 모바일: 카드 목록 -->
+      <div class="card-list" id="card-list"></div>
+    </div>
+
+  </main>
+
+  <footer>만든 날: 2026년 2월 &nbsp;|&nbsp; <span>우리 아기</span> 의 소중한 성장 기록 💕</footer>
+
+  <script>
+    // ─── 데이터 ───
+    const RAW = [
+  {
+    "date": "2023-10-01 (5d)",
+    "day": 5,
+    "date_str": "2023-10-01",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-02 (6d)",
+    "day": 6,
+    "date_str": "2023-10-02",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-03 (7d)",
+    "day": 7,
+    "date_str": "2023-10-03",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-04 (8d)",
+    "day": 8,
+    "date_str": "2023-10-04",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-05 (9d)",
+    "day": 9,
+    "date_str": "2023-10-05",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-06 (10d)",
+    "day": 10,
+    "date_str": "2023-10-06",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-07 (11d)",
+    "day": 11,
+    "date_str": "2023-10-07",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-08 (12d)",
+    "day": 12,
+    "date_str": "2023-10-08",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-09 (13d)",
+    "day": 13,
+    "date_str": "2023-10-09",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-10 (14d)",
+    "day": 14,
+    "date_str": "2023-10-10",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-11 (15d)",
+    "day": 15,
+    "date_str": "2023-10-11",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-12 (16d)",
+    "day": 16,
+    "date_str": "2023-10-12",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-13 (17d)",
+    "day": 17,
+    "date_str": "2023-10-13",
+    "formula_total_ml": 0.0,
+    "formula_count": 0.0,
+    "formula_avg_ml": 0.0,
+    "diaper_total": 0.0,
+    "diaper_pee": 0.0,
+    "diaper_poo": 0.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-14 (18d)",
+    "day": 18,
+    "date_str": "2023-10-14",
+    "formula_total_ml": 410.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 68.33,
+    "diaper_total": 5.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 2.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-15 (19d)",
+    "day": 19,
+    "date_str": "2023-10-15",
+    "formula_total_ml": 590.0,
+    "formula_count": 10.0,
+    "formula_avg_ml": 59.0,
+    "diaper_total": 10.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 5.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-16 (20d)",
+    "day": 20,
+    "date_str": "2023-10-16",
+    "formula_total_ml": 735.0,
+    "formula_count": 10.0,
+    "formula_avg_ml": 73.5,
+    "diaper_total": 10.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 5.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-17 (21d)",
+    "day": 21,
+    "date_str": "2023-10-17",
+    "formula_total_ml": 790.0,
+    "formula_count": 11.0,
+    "formula_avg_ml": 71.82,
+    "diaper_total": 8.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 4.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-18 (22d)",
+    "day": 22,
+    "date_str": "2023-10-18",
+    "formula_total_ml": 705.0,
+    "formula_count": 9.0,
+    "formula_avg_ml": 78.33,
+    "diaper_total": 8.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 4.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-19 (23d)",
+    "day": 23,
+    "date_str": "2023-10-19",
+    "formula_total_ml": 880.0,
+    "formula_count": 11.0,
+    "formula_avg_ml": 80.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-20 (24d)",
+    "day": 24,
+    "date_str": "2023-10-20",
+    "formula_total_ml": 815.0,
+    "formula_count": 9.0,
+    "formula_avg_ml": 90.56,
+    "diaper_total": 11.0,
+    "diaper_pee": 7.0,
+    "diaper_poo": 4.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 1.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-21 (25d)",
+    "day": 25,
+    "date_str": "2023-10-21",
+    "formula_total_ml": 800.0,
+    "formula_count": 10.0,
+    "formula_avg_ml": 80.0,
+    "diaper_total": 9.0,
+    "diaper_pee": 8.0,
+    "diaper_poo": 1.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 1.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-22 (26d)",
+    "day": 26,
+    "date_str": "2023-10-22",
+    "formula_total_ml": 835.0,
+    "formula_count": 10.0,
+    "formula_avg_ml": 83.5,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 2.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-23 (27d)",
+    "day": 27,
+    "date_str": "2023-10-23",
+    "formula_total_ml": 970.0,
+    "formula_count": 11.0,
+    "formula_avg_ml": 88.18,
+    "diaper_total": 7.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 2.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-24 (28d)",
+    "day": 28,
+    "date_str": "2023-10-24",
+    "formula_total_ml": 925.0,
+    "formula_count": 10.0,
+    "formula_avg_ml": 92.5,
+    "diaper_total": 5.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 2.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-25 (29d)",
+    "day": 29,
+    "date_str": "2023-10-25",
+    "formula_total_ml": 930.0,
+    "formula_count": 9.0,
+    "formula_avg_ml": 103.33,
+    "diaper_total": 6.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 3.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 124.0,
+    "night_count": 2.0,
+    "night_avg_min": 62.0
+  },
+  {
+    "date": "2023-10-26 (30d)",
+    "day": 30,
+    "date_str": "2023-10-26",
+    "formula_total_ml": 870.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 108.75,
+    "diaper_total": 2.0,
+    "diaper_pee": 1.0,
+    "diaper_poo": 1.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-27 (31d)",
+    "day": 31,
+    "date_str": "2023-10-27",
+    "formula_total_ml": 770.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 110.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 0.0,
+    "nap_count": 0.0,
+    "nap_avg_min": 0.0,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-28 (32d)",
+    "day": 32,
+    "date_str": "2023-10-28",
+    "formula_total_ml": 870.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 108.75,
+    "diaper_total": 3.0,
+    "diaper_pee": 2.0,
+    "diaper_poo": 1.0,
+    "nap_min": 384.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 76.8,
+    "night_min": 0.0,
+    "night_count": 0.0,
+    "night_avg_min": 0.0
+  },
+  {
+    "date": "2023-10-29 (33d)",
+    "day": 33,
+    "date_str": "2023-10-29",
+    "formula_total_ml": 820.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 102.5,
+    "diaper_total": 6.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 3.0,
+    "nap_min": 501.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 125.25,
+    "night_min": 396.0,
+    "night_count": 4.0,
+    "night_avg_min": 99.0
+  },
+  {
+    "date": "2023-10-30 (34d)",
+    "day": 34,
+    "date_str": "2023-10-30",
+    "formula_total_ml": 880.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 110.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 4.0,
+    "nap_min": 153.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 51.0,
+    "night_min": 436.0,
+    "night_count": 3.0,
+    "night_avg_min": 145.33
+  },
+  {
+    "date": "2023-10-31 (35d)",
+    "day": 35,
+    "date_str": "2023-10-31",
+    "formula_total_ml": 770.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 110.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 2.0,
+    "nap_min": 391.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 97.75,
+    "night_min": 482.0,
+    "night_count": 3.0,
+    "night_avg_min": 160.67
+  },
+  {
+    "date": "2023-11-01 (36d)",
+    "day": 36,
+    "date_str": "2023-11-01",
+    "formula_total_ml": 820.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 117.14,
+    "diaper_total": 6.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 3.0,
+    "nap_min": 188.0,
+    "nap_count": 1.0,
+    "nap_avg_min": 188.0,
+    "night_min": 403.0,
+    "night_count": 3.0,
+    "night_avg_min": 134.33
+  },
+  {
+    "date": "2023-11-02 (37d)",
+    "day": 37,
+    "date_str": "2023-11-02",
+    "formula_total_ml": 880.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 110.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 2.0,
+    "nap_min": 130.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 65.0,
+    "night_min": 424.0,
+    "night_count": 3.0,
+    "night_avg_min": 141.33
+  },
+  {
+    "date": "2023-11-03 (38d)",
+    "day": 38,
+    "date_str": "2023-11-03",
+    "formula_total_ml": 900.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 112.5,
+    "diaper_total": 5.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 0.0,
+    "nap_min": 119.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 59.5,
+    "night_min": 461.0,
+    "night_count": 3.0,
+    "night_avg_min": 153.67
+  },
+  {
+    "date": "2023-11-04 (39d)",
+    "day": 39,
+    "date_str": "2023-11-04",
+    "formula_total_ml": 870.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 108.75,
+    "diaper_total": 8.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 2.0,
+    "nap_min": 242.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 60.5,
+    "night_min": 489.0,
+    "night_count": 3.0,
+    "night_avg_min": 163.0
+  },
+  {
+    "date": "2023-11-05 (40d)",
+    "day": 40,
+    "date_str": "2023-11-05",
+    "formula_total_ml": 860.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 122.86,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 412.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 103.0,
+    "night_min": 590.0,
+    "night_count": 4.0,
+    "night_avg_min": 147.5
+  },
+  {
+    "date": "2023-11-06 (41d)",
+    "day": 41,
+    "date_str": "2023-11-06",
+    "formula_total_ml": 880.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 125.71,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 399.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 99.75,
+    "night_min": 563.0,
+    "night_count": 3.0,
+    "night_avg_min": 187.67
+  },
+  {
+    "date": "2023-11-07 (42d)",
+    "day": 42,
+    "date_str": "2023-11-07",
+    "formula_total_ml": 885.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 126.43,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 406.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 135.33,
+    "night_min": 446.0,
+    "night_count": 5.0,
+    "night_avg_min": 89.2
+  },
+  {
+    "date": "2023-11-08 (43d)",
+    "day": 43,
+    "date_str": "2023-11-08",
+    "formula_total_ml": 795.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 132.5,
+    "diaper_total": 5.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 2.0,
+    "nap_min": 271.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 90.33,
+    "night_min": 344.0,
+    "night_count": 3.0,
+    "night_avg_min": 114.67
+  },
+  {
+    "date": "2023-11-09 (44d)",
+    "day": 44,
+    "date_str": "2023-11-09",
+    "formula_total_ml": 830.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 138.33,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 259.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 64.75,
+    "night_min": 606.0,
+    "night_count": 4.0,
+    "night_avg_min": 151.5
+  },
+  {
+    "date": "2023-11-10 (45d)",
+    "day": 45,
+    "date_str": "2023-11-10",
+    "formula_total_ml": 810.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 135.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 390.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 78.0,
+    "night_min": 477.0,
+    "night_count": 3.0,
+    "night_avg_min": 159.0
+  },
+  {
+    "date": "2023-11-11 (46d)",
+    "day": 46,
+    "date_str": "2023-11-11",
+    "formula_total_ml": 865.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 144.17,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 194.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 97.0,
+    "night_min": 630.0,
+    "night_count": 3.0,
+    "night_avg_min": 210.0
+  },
+  {
+    "date": "2023-11-12 (47d)",
+    "day": 47,
+    "date_str": "2023-11-12",
+    "formula_total_ml": 870.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 145.0,
+    "diaper_total": 4.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 1.0,
+    "nap_min": 174.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 58.0,
+    "night_min": 440.0,
+    "night_count": 2.0,
+    "night_avg_min": 220.0
+  },
+  {
+    "date": "2023-11-13 (48d)",
+    "day": 48,
+    "date_str": "2023-11-13",
+    "formula_total_ml": 780.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 130.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 166.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 83.0,
+    "night_min": 679.0,
+    "night_count": 3.0,
+    "night_avg_min": 226.33
+  },
+  {
+    "date": "2023-11-14 (49d)",
+    "day": 49,
+    "date_str": "2023-11-14",
+    "formula_total_ml": 850.0,
+    "formula_count": 8.0,
+    "formula_avg_ml": 106.25,
+    "diaper_total": 8.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 2.0,
+    "nap_min": 284.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 71.0,
+    "night_min": 484.0,
+    "night_count": 2.0,
+    "night_avg_min": 242.0
+  },
+  {
+    "date": "2023-11-15 (50d)",
+    "day": 50,
+    "date_str": "2023-11-15",
+    "formula_total_ml": 820.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 117.14,
+    "diaper_total": 7.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 2.0,
+    "nap_min": 382.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 76.4,
+    "night_min": 502.0,
+    "night_count": 2.0,
+    "night_avg_min": 251.0
+  },
+  {
+    "date": "2023-11-16 (51d)",
+    "day": 51,
+    "date_str": "2023-11-16",
+    "formula_total_ml": 810.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 135.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 3.0,
+    "nap_min": 307.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 61.4,
+    "night_min": 517.0,
+    "night_count": 2.0,
+    "night_avg_min": 258.5
+  },
+  {
+    "date": "2023-11-17 (52d)",
+    "day": 52,
+    "date_str": "2023-11-17",
+    "formula_total_ml": 855.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 142.5,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 375.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 75.0,
+    "night_min": 467.0,
+    "night_count": 2.0,
+    "night_avg_min": 233.5
+  },
+  {
+    "date": "2023-11-18 (53d)",
+    "day": 53,
+    "date_str": "2023-11-18",
+    "formula_total_ml": 810.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 135.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 0.0,
+    "nap_min": 388.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 129.33,
+    "night_min": 558.0,
+    "night_count": 2.0,
+    "night_avg_min": 279.0
+  },
+  {
+    "date": "2023-11-19 (54d)",
+    "day": 54,
+    "date_str": "2023-11-19",
+    "formula_total_ml": 745.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 124.17,
+    "diaper_total": 6.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 3.0,
+    "nap_min": 182.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 91.0,
+    "night_min": 597.0,
+    "night_count": 2.0,
+    "night_avg_min": 298.5
+  },
+  {
+    "date": "2023-11-20 (55d)",
+    "day": 55,
+    "date_str": "2023-11-20",
+    "formula_total_ml": 785.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 130.83,
+    "diaper_total": 7.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 1.0,
+    "nap_min": 419.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 139.67,
+    "night_min": 657.0,
+    "night_count": 3.0,
+    "night_avg_min": 219.0
+  },
+  {
+    "date": "2023-11-21 (56d)",
+    "day": 56,
+    "date_str": "2023-11-21",
+    "formula_total_ml": 850.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 141.67,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 157.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 78.5,
+    "night_min": 555.0,
+    "night_count": 2.0,
+    "night_avg_min": 277.5
+  },
+  {
+    "date": "2023-11-22 (57d)",
+    "day": 57,
+    "date_str": "2023-11-22",
+    "formula_total_ml": 810.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 115.71,
+    "diaper_total": 7.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 4.0,
+    "nap_min": 354.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 70.8,
+    "night_min": 585.0,
+    "night_count": 2.0,
+    "night_avg_min": 292.5
+  },
+  {
+    "date": "2023-11-23 (58d)",
+    "day": 58,
+    "date_str": "2023-11-23",
+    "formula_total_ml": 780.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 130.0,
+    "diaper_total": 9.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 4.0,
+    "nap_min": 317.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 79.25,
+    "night_min": 626.0,
+    "night_count": 2.0,
+    "night_avg_min": 313.0
+  },
+  {
+    "date": "2023-11-24 (59d)",
+    "day": 59,
+    "date_str": "2023-11-24",
+    "formula_total_ml": 815.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 135.83,
+    "diaper_total": 7.0,
+    "diaper_pee": 6.0,
+    "diaper_poo": 1.0,
+    "nap_min": 346.0,
+    "nap_count": 6.0,
+    "nap_avg_min": 57.67,
+    "night_min": 554.0,
+    "night_count": 2.0,
+    "night_avg_min": 277.0
+  },
+  {
+    "date": "2023-11-25 (60d)",
+    "day": 60,
+    "date_str": "2023-11-25",
+    "formula_total_ml": 730.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 146.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 2.0,
+    "diaper_poo": 4.0,
+    "nap_min": 192.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 64.0,
+    "night_min": 607.0,
+    "night_count": 2.0,
+    "night_avg_min": 303.5
+  },
+  {
+    "date": "2023-11-26 (61d)",
+    "day": 61,
+    "date_str": "2023-11-26",
+    "formula_total_ml": 765.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 153.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 322.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 161.0,
+    "night_min": 414.0,
+    "night_count": 1.0,
+    "night_avg_min": 414.0
+  },
+  {
+    "date": "2023-11-27 (62d)",
+    "day": 62,
+    "date_str": "2023-11-27",
+    "formula_total_ml": 800.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 133.33,
+    "diaper_total": 8.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 3.0,
+    "nap_min": 302.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 100.67,
+    "night_min": 708.0,
+    "night_count": 2.0,
+    "night_avg_min": 354.0
+  },
+  {
+    "date": "2023-11-28 (63d)",
+    "day": 63,
+    "date_str": "2023-11-28",
+    "formula_total_ml": 830.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 138.33,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 384.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 96.0,
+    "night_min": 526.0,
+    "night_count": 1.0,
+    "night_avg_min": 526.0
+  },
+  {
+    "date": "2023-11-29 (64d)",
+    "day": 64,
+    "date_str": "2023-11-29",
+    "formula_total_ml": 800.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 133.33,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 167.0,
+    "nap_count": 1.0,
+    "nap_avg_min": 167.0,
+    "night_min": 605.0,
+    "night_count": 2.0,
+    "night_avg_min": 302.5
+  },
+  {
+    "date": "2023-11-30 (65d)",
+    "day": 65,
+    "date_str": "2023-11-30",
+    "formula_total_ml": 800.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 114.29,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 419.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 104.75,
+    "night_min": 548.0,
+    "night_count": 2.0,
+    "night_avg_min": 274.0
+  },
+  {
+    "date": "2023-12-01 (66d)",
+    "day": 66,
+    "date_str": "2023-12-01",
+    "formula_total_ml": 815.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 135.83,
+    "diaper_total": 4.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 0.0,
+    "nap_min": 326.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 108.67,
+    "night_min": 589.0,
+    "night_count": 2.0,
+    "night_avg_min": 294.5
+  },
+  {
+    "date": "2023-12-02 (67d)",
+    "day": 67,
+    "date_str": "2023-12-02",
+    "formula_total_ml": 760.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 152.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 151.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 50.33,
+    "night_min": 640.0,
+    "night_count": 2.0,
+    "night_avg_min": 320.0
+  },
+  {
+    "date": "2023-12-03 (68d)",
+    "day": 68,
+    "date_str": "2023-12-03",
+    "formula_total_ml": 810.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 162.0,
+    "diaper_total": 4.0,
+    "diaper_pee": 2.0,
+    "diaper_poo": 2.0,
+    "nap_min": 176.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 44.0,
+    "night_min": 743.0,
+    "night_count": 2.0,
+    "night_avg_min": 371.5
+  },
+  {
+    "date": "2023-12-04 (69d)",
+    "day": 69,
+    "date_str": "2023-12-04",
+    "formula_total_ml": 790.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 158.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 3.0,
+    "nap_min": 179.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 44.75,
+    "night_min": 734.0,
+    "night_count": 2.0,
+    "night_avg_min": 367.0
+  },
+  {
+    "date": "2023-12-05 (70d)",
+    "day": 70,
+    "date_str": "2023-12-05",
+    "formula_total_ml": 835.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 167.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 366.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 122.0,
+    "night_min": 678.0,
+    "night_count": 2.0,
+    "night_avg_min": 339.0
+  },
+  {
+    "date": "2023-12-06 (71d)",
+    "day": 71,
+    "date_str": "2023-12-06",
+    "formula_total_ml": 825.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 165.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 4.0,
+    "nap_min": 242.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 48.4,
+    "night_min": 673.0,
+    "night_count": 2.0,
+    "night_avg_min": 336.5
+  },
+  {
+    "date": "2023-12-07 (72d)",
+    "day": 72,
+    "date_str": "2023-12-07",
+    "formula_total_ml": 820.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 136.67,
+    "diaper_total": 7.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 2.0,
+    "nap_min": 291.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 58.2,
+    "night_min": 658.0,
+    "night_count": 2.0,
+    "night_avg_min": 329.0
+  },
+  {
+    "date": "2023-12-08 (73d)",
+    "day": 73,
+    "date_str": "2023-12-08",
+    "formula_total_ml": 690.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 138.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 1.0,
+    "nap_min": 238.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 79.33,
+    "night_min": 715.0,
+    "night_count": 2.0,
+    "night_avg_min": 357.5
+  },
+  {
+    "date": "2023-12-09 (74d)",
+    "day": 74,
+    "date_str": "2023-12-09",
+    "formula_total_ml": 845.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 140.83,
+    "diaper_total": 9.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 5.0,
+    "nap_min": 269.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 53.8,
+    "night_min": 679.0,
+    "night_count": 2.0,
+    "night_avg_min": 339.5
+  },
+  {
+    "date": "2023-12-10 (75d)",
+    "day": 75,
+    "date_str": "2023-12-10",
+    "formula_total_ml": 665.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 110.83,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 307.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 102.33,
+    "night_min": 613.0,
+    "night_count": 1.0,
+    "night_avg_min": 613.0
+  },
+  {
+    "date": "2023-12-11 (76d)",
+    "day": 76,
+    "date_str": "2023-12-11",
+    "formula_total_ml": 735.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 147.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 283.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 94.33,
+    "night_min": 734.0,
+    "night_count": 2.0,
+    "night_avg_min": 367.0
+  },
+  {
+    "date": "2023-12-12 (77d)",
+    "day": 77,
+    "date_str": "2023-12-12",
+    "formula_total_ml": 695.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 139.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 1.0,
+    "nap_min": 236.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 118.0,
+    "night_min": 770.0,
+    "night_count": 2.0,
+    "night_avg_min": 385.0
+  },
+  {
+    "date": "2023-12-13 (78d)",
+    "day": 78,
+    "date_str": "2023-12-13",
+    "formula_total_ml": 785.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 130.83,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 311.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 77.75,
+    "night_min": 610.0,
+    "night_count": 2.0,
+    "night_avg_min": 305.0
+  },
+  {
+    "date": "2023-12-14 (79d)",
+    "day": 79,
+    "date_str": "2023-12-14",
+    "formula_total_ml": 660.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 165.0,
+    "diaper_total": 4.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 0.0,
+    "nap_min": 355.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 88.75,
+    "night_min": 658.0,
+    "night_count": 1.0,
+    "night_avg_min": 658.0
+  },
+  {
+    "date": "2023-12-15 (80d)",
+    "day": 80,
+    "date_str": "2023-12-15",
+    "formula_total_ml": 710.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 142.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 2.0,
+    "nap_min": 152.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 76.0,
+    "night_min": 778.0,
+    "night_count": 2.0,
+    "night_avg_min": 389.0
+  },
+  {
+    "date": "2023-12-16 (81d)",
+    "day": 81,
+    "date_str": "2023-12-16",
+    "formula_total_ml": 650.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 162.5,
+    "diaper_total": 5.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 1.0,
+    "nap_min": 394.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 98.5,
+    "night_min": 631.0,
+    "night_count": 1.0,
+    "night_avg_min": 631.0
+  },
+  {
+    "date": "2023-12-17 (82d)",
+    "day": 82,
+    "date_str": "2023-12-17",
+    "formula_total_ml": 905.0,
+    "formula_count": 7.0,
+    "formula_avg_ml": 129.29,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 260.0,
+    "nap_count": 6.0,
+    "nap_avg_min": 43.33,
+    "night_min": 558.0,
+    "night_count": 2.0,
+    "night_avg_min": 279.0
+  },
+  {
+    "date": "2023-12-18 (83d)",
+    "day": 83,
+    "date_str": "2023-12-18",
+    "formula_total_ml": 765.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 153.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 294.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 98.0,
+    "night_min": 700.0,
+    "night_count": 1.0,
+    "night_avg_min": 700.0
+  },
+  {
+    "date": "2023-12-19 (84d)",
+    "day": 84,
+    "date_str": "2023-12-19",
+    "formula_total_ml": 730.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 182.5,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 307.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 102.33,
+    "night_min": 679.0,
+    "night_count": 1.0,
+    "night_avg_min": 679.0
+  },
+  {
+    "date": "2023-12-20 (85d)",
+    "day": 85,
+    "date_str": "2023-12-20",
+    "formula_total_ml": 860.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 172.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 1.0,
+    "nap_min": 136.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 45.33,
+    "night_min": 685.0,
+    "night_count": 2.0,
+    "night_avg_min": 342.5
+  },
+  {
+    "date": "2023-12-21 (86d)",
+    "day": 86,
+    "date_str": "2023-12-21",
+    "formula_total_ml": 870.0,
+    "formula_count": 6.0,
+    "formula_avg_ml": 145.0,
+    "diaper_total": 8.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 3.0,
+    "nap_min": 317.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 105.67,
+    "night_min": 690.0,
+    "night_count": 2.0,
+    "night_avg_min": 345.0
+  },
+  {
+    "date": "2023-12-22 (87d)",
+    "day": 87,
+    "date_str": "2023-12-22",
+    "formula_total_ml": 830.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 166.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 2.0,
+    "nap_min": 211.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 70.33,
+    "night_min": 648.0,
+    "night_count": 2.0,
+    "night_avg_min": 324.0
+  },
+  {
+    "date": "2023-12-23 (88d)",
+    "day": 88,
+    "date_str": "2023-12-23",
+    "formula_total_ml": 720.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 180.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 1.0,
+    "nap_min": 364.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 121.33,
+    "night_min": 670.0,
+    "night_count": 1.0,
+    "night_avg_min": 670.0
+  },
+  {
+    "date": "2023-12-24 (89d)",
+    "day": 89,
+    "date_str": "2023-12-24",
+    "formula_total_ml": 760.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 190.0,
+    "diaper_total": 4.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 1.0,
+    "nap_min": 220.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 73.33,
+    "night_min": 691.0,
+    "night_count": 1.0,
+    "night_avg_min": 691.0
+  },
+  {
+    "date": "2023-12-25 (90d)",
+    "day": 90,
+    "date_str": "2023-12-25",
+    "formula_total_ml": 830.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 166.0,
+    "diaper_total": 5.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 0.0,
+    "nap_min": 288.0,
+    "nap_count": 2.0,
+    "nap_avg_min": 144.0,
+    "night_min": 760.0,
+    "night_count": 2.0,
+    "night_avg_min": 380.0
+  },
+  {
+    "date": "2023-12-26 (91d)",
+    "day": 91,
+    "date_str": "2023-12-26",
+    "formula_total_ml": 810.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 162.0,
+    "diaper_total": 7.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 3.0,
+    "nap_min": 210.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 52.5,
+    "night_min": 640.0,
+    "night_count": 2.0,
+    "night_avg_min": 320.0
+  },
+  {
+    "date": "2023-12-27 (92d)",
+    "day": 92,
+    "date_str": "2023-12-27",
+    "formula_total_ml": 640.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 128.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 3.0,
+    "diaper_poo": 3.0,
+    "nap_min": 260.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 52.0,
+    "night_min": 656.0,
+    "night_count": 1.0,
+    "night_avg_min": 656.0
+  },
+  {
+    "date": "2023-12-28 (93d)",
+    "day": 93,
+    "date_str": "2023-12-28",
+    "formula_total_ml": 645.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 161.25,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 249.0,
+    "nap_count": 5.0,
+    "nap_avg_min": 49.8,
+    "night_min": 636.0,
+    "night_count": 1.0,
+    "night_avg_min": 636.0
+  },
+  {
+    "date": "2023-12-29 (94d)",
+    "day": 94,
+    "date_str": "2023-12-29",
+    "formula_total_ml": 775.0,
+    "formula_count": 5.0,
+    "formula_avg_ml": 155.0,
+    "diaper_total": 6.0,
+    "diaper_pee": 5.0,
+    "diaper_poo": 1.0,
+    "nap_min": 354.0,
+    "nap_count": 3.0,
+    "nap_avg_min": 118.0,
+    "night_min": 713.0,
+    "night_count": 2.0,
+    "night_avg_min": 356.5
+  },
+  {
+    "date": "2023-12-30 (95d)",
+    "day": 95,
+    "date_str": "2023-12-30",
+    "formula_total_ml": 755.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 188.75,
+    "diaper_total": 6.0,
+    "diaper_pee": 4.0,
+    "diaper_poo": 2.0,
+    "nap_min": 296.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 74.0,
+    "night_min": 673.0,
+    "night_count": 1.0,
+    "night_avg_min": 673.0
+  },
+  {
+    "date": "2023-12-31 (96d)",
+    "day": 96,
+    "date_str": "2023-12-31",
+    "formula_total_ml": 670.0,
+    "formula_count": 4.0,
+    "formula_avg_ml": 167.5,
+    "diaper_total": 2.0,
+    "diaper_pee": 2.0,
+    "diaper_poo": 0.0,
+    "nap_min": 155.0,
+    "nap_count": 4.0,
+    "nap_avg_min": 38.75,
+    "night_min": 726.0,
+    "night_count": 1.0,
+    "night_avg_min": 726.0
+  }
+];
+
+
+// ─── 전역 변수 & 유틸 ───
+let currentMode = 'daily'; // 'daily' or 'weekly'
+let charts = {}; // 차트 인스턴스 저장
+
+// 데이터 필터링 (분유량 있는 날만)
+const active = RAW.filter(d => d.formula_total_ml > 0);
+
+// 주간 데이터 가공
+function getWeeklyData(data) {
+    const weeks = {};
+    data.forEach(d => {
+        // "10-01" -> 10월 1주차 계산
+        const date = new Date(d.date_str);
+        // 간단하게 일자/7 올림으로 주차 계산 (1~7일: 1주, 8~14일: 2주...)
+        const weekNo = Math.ceil(date.getDate() / 7);
+        const key = `${date.getMonth() + 1}월 ${weekNo}주`;
+
+        if (!weeks[key]) {
+            weeks[key] = {
+                label: key, count: 0,
+                formula_total_ml: 0, formula_count: 0, formula_avg_ml: 0,
+                diaper_pee: 0, diaper_poo: 0,
+                nap_min: 0, nap_count: 0,
+                night_min: 0, night_count: 0,
+                night_avg_min: 0
+            };
+        }
+        const w = weeks[key];
+        w.count++;
+        w.formula_total_ml += d.formula_total_ml;
+        w.formula_count += d.formula_count;
+        w.formula_avg_ml += d.formula_avg_ml;
+        w.diaper_pee += d.diaper_pee;
+        w.diaper_poo += d.diaper_poo;
+        if (d.nap_min > 0) { w.nap_min += d.nap_min; w.nap_count++; }
+        if (d.night_min > 0) { w.night_min += d.night_min; w.night_count++; }
+        if (d.night_avg_min > 0) w.night_avg_min += d.night_avg_min;
+    });
+
+    return Object.values(weeks).map(w => ({
+        label: w.label,
+        // 분유·기저귀: 주간 일평균 (해당 주 전체 일 수 기준)
+        formula_total_ml: Math.round(w.formula_total_ml / w.count),
+        formula_count: Math.round((w.formula_count / w.count) * 10) / 10,
+        formula_avg_ml: Math.round(w.formula_avg_ml / w.count),
+        diaper_pee: Math.round((w.diaper_pee / w.count) * 10) / 10,
+        diaper_poo: Math.round((w.diaper_poo / w.count) * 10) / 10,
+        // 수면: 데이터 있는 날만 평균
+        nap_min: w.nap_count ? Math.round(w.nap_min / w.nap_count) : 0,
+        night_min: w.night_count ? Math.round(w.night_min / w.night_count) : 0,
+        night_avg_min: w.night_count ? Math.round(w.night_avg_min / w.night_count) : 0
+    }));
+}
+
+const weeklyData = getWeeklyData(active);
+
+// 라벨 생성
+const dailyLabels = active.map(d => `${parseInt(d.date_str.slice(8, 10))}일`);
+const dailyFullLabels = active.map(d => `${d.date_str.slice(5, 10).replace('-', '/')} (${d.day}d)`);
+const weeklyLabels = weeklyData.map(d => d.label);
+
+// ─── Chart 설정 ───
+const isMobile = window.innerWidth <= 680;
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = isMobile ? 10 : 12;
+Chart.defaults.color = '#6b7280';
+
+const TOOLTIP_STYLE = {
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    titleColor: '#1e1b2e', bodyColor: '#6b7280',
+    borderColor: '#fce7f3', borderWidth: 1,
+    cornerRadius: 10, padding: 10,
+};
+const X_AXIS_MOBILE = isMobile ? {
+    ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }
+} : {};
+
+// 차트 초기화 함수
+function initCharts() {
+    // 1. 분유
+    const ctx1 = document.getElementById('formulaBarLine').getContext('2d');
+    charts.formula = new Chart(ctx1, {
+        data: {
+            labels: dailyLabels,
+            datasets: [
+                {
+                    type: 'bar', label: '섭취량 (ml)',
+                    data: active.map(d => d.formula_total_ml),
+                    backgroundColor: 'rgba(255,126,182,0.75)',
+                    borderRadius: 6, order: 2, yAxisID: 'y'
+                },
+                {
+                    type: 'line', label: '횟수',
+                    data: active.map(d => d.formula_count),
+                    borderColor: '#a78bfa', borderWidth: 2, pointRadius: 3,
+                    tension: 0.3, yAxisID: 'y2', order: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: { legend: { position: 'top' }, tooltip: TOOLTIP_STYLE },
+            scales: {
+                x: { grid: { display: false }, ...X_AXIS_MOBILE },
+                y: { position: 'left', grid: { color: '#fce7f3' }, title: { display: true, text: 'ml' } },
+                y2: { position: 'right', grid: { display: false }, min: 0 }
+            }
+        }
+    });
+
+    // 2. 평균 섭취량
+    const ctx2 = document.getElementById('formulaAvg').getContext('2d');
+    charts.avg = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: dailyLabels,
+            datasets: [{
+                label: '1회 평균 (ml)',
+                data: active.map(d => d.formula_avg_ml),
+                borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',
+                borderWidth: 2, pointRadius: 3, fill: true, tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: TOOLTIP_STYLE },
+            scales: { x: { grid: { display: false }, ...X_AXIS_MOBILE }, y: { min: 40 } }
+        }
+    });
+
+    // 3. 기저귀
+    const ctx3 = document.getElementById('diaperStack').getContext('2d');
+    charts.diaper = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: dailyLabels,
+            datasets: [
+                { label: '소변', data: active.map(d => d.diaper_pee), backgroundColor: '#60c8f5', borderRadius: 4 },
+                { label: '대변', data: active.map(d => d.diaper_poo), backgroundColor: '#fbbf24', borderRadius: 4 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' }, tooltip: TOOLTIP_STYLE },
+            scales: { x: { stacked: true, grid: { display: false }, ...X_AXIS_MOBILE }, y: { stacked: true } }
+        }
+    });
+
+    // 4. 도넛 (전체 누적이므로 토글 영향 X)
+    const ctx4 = document.getElementById('diaperDonut').getContext('2d');
+    new Chart(ctx4, {
+        type: 'doughnut',
+        data: {
+            labels: ['소변', '대변'],
+            datasets: [{
+                data: [
+                    active.reduce((s, d) => s + d.diaper_pee, 0),
+                    active.reduce((s, d) => s + d.diaper_poo, 0)
+                ],
+                backgroundColor: ['#60c8f5', '#fbbf24'], borderWidth: 0
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false } } }
+    });
+
+    // 5. 수면
+    const ctx5 = document.getElementById('sleepBar').getContext('2d');
+    charts.sleep = new Chart(ctx5, {
+        type: 'bar',
+        data: {
+            labels: dailyLabels, // 전체 데이터 쓰되 0인건 무시됨? 아니 active 기준이라 괜찮음
+            datasets: [
+                { label: '낮잠(분)', data: active.map(d => d.nap_min), backgroundColor: '#60c8f5', borderRadius: 4 },
+                { label: '밤잠(분)', data: active.map(d => d.night_min), backgroundColor: '#7c3aed', borderRadius: 4 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' }, tooltip: TOOLTIP_STYLE },
+            scales: { x: { grid: { display: false }, ...X_AXIS_MOBILE }, y: { title: { display: true, text: '분' } } }
+        }
+    });
+
+    // 6. 밤잠 라인
+    const ctx6 = document.getElementById('sleepLine').getContext('2d');
+    charts.sleepLine = new Chart(ctx6, {
+        type: 'line',
+        data: {
+            labels: dailyLabels,
+            datasets: [{
+                label: '밤잠 평균(분)', data: active.map(d => d.night_avg_min),
+                borderColor: '#7c3aed', borderWidth: 2, pointRadius: 3, tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: TOOLTIP_STYLE },
+            scales: { x: { grid: { display: false }, ...X_AXIS_MOBILE } }
+        }
+    });
+}
+
+// 차트 제목 텍스트 정의
+const CHART_TITLES = {
+    formula:   { daily: '일일 총 섭취량(ml) & 수유 횟수 추이',     weekly: '주간 평균 섭취량(ml) & 수유 횟수' },
+    avg:       { daily: '📈 1회 평균 섭취량 성장 곡선 (ml)',         weekly: '📈 주간 평균 1회 섭취량 (ml)' },
+    diaper:    { daily: '소변 / 대변 일별 현황',                     weekly: '주간 평균 소변 / 대변 횟수' },
+    sleep:     { daily: '낮잠 / 밤잠 시간 비교 (분)',                weekly: '주간 평균 낮잠 / 밤잠 시간 (분)' },
+    sleepLine: { daily: '밤잠 평균 수면 시간 추이 (분)',             weekly: '주간 평균 밤잠 수면 시간 (분)' },
+};
+
+function updateChartTitles(mode) {
+    document.getElementById('formulaBarLine').closest('.chart-card').querySelector('h3').textContent = CHART_TITLES.formula[mode];
+    document.getElementById('formulaAvg').closest('.chart-card').querySelector('h3').textContent = CHART_TITLES.avg[mode];
+    document.getElementById('diaperStack').closest('.chart-card').querySelector('h3').textContent = CHART_TITLES.diaper[mode];
+    document.getElementById('sleepBar').closest('.chart-card').querySelector('h3').textContent = CHART_TITLES.sleep[mode];
+    document.getElementById('sleepLine').closest('.chart-card').querySelector('h3').textContent = CHART_TITLES.sleepLine[mode];
+}
+
+// 토글 기능
+function toggleView(mode) {
+    if (currentMode === mode) return;
+    currentMode = mode;
+
+    // 버튼 스타일 업데이트
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${mode}`).classList.add('active');
+
+    // 데이터 교체
+    const isDaily = mode === 'daily';
+    const labels = isDaily ? dailyLabels : weeklyLabels;
+    const source = isDaily ? active : weeklyData;
+
+    // 차트 제목 변경
+    updateChartTitles(mode);
+
+    // 1. 분유
+    charts.formula.data.labels = labels;
+    charts.formula.data.datasets[0].data = source.map(d => d.formula_total_ml);
+    charts.formula.data.datasets[1].data = source.map(d => d.formula_count);
+    charts.formula.update();
+
+    // 2. 평균 섭취
+    charts.avg.data.labels = labels;
+    charts.avg.data.datasets[0].data = source.map(d => d.formula_avg_ml);
+    charts.avg.update();
+
+    // 3. 기저귀
+    charts.diaper.data.labels = labels;
+    charts.diaper.data.datasets[0].data = source.map(d => d.diaper_pee);
+    charts.diaper.data.datasets[1].data = source.map(d => d.diaper_poo);
+    charts.diaper.update();
+
+    // 5. 수면
+    charts.sleep.data.labels = labels;
+    charts.sleep.data.datasets[0].data = source.map(d => d.nap_min);
+    charts.sleep.data.datasets[1].data = source.map(d => d.night_min);
+    charts.sleep.update();
+
+    // 6. 수면 라인
+    charts.sleepLine.data.labels = labels;
+    charts.sleepLine.data.datasets[0].data = source.map(d => d.night_avg_min);
+    charts.sleepLine.update();
+}
+
+// KPI 자동 계산
+const totalDays = active.length;
+const totalFormula = active.reduce((sum, d) => sum + d.formula_total_ml, 0);
+const totalFormulaCount = active.reduce((sum, d) => sum + d.formula_count, 0);
+const totalDiaper = active.reduce((sum, d) => sum + d.diaper_total, 0);
+
+// 일일 분유 섭취량: 기록 일수 기준 평균
+const kpiDailyMl = totalDays ? Math.round(totalFormula / totalDays) : 0;
+
+// 1회당 분유량: 전체 섭취량 / 전체 수유 횟수
+const kpiPerMl = totalFormulaCount ? Math.round(totalFormula / totalFormulaCount) : 0;
+
+// 일일 기저귀 교체 횟수
+const kpiDailyDiaper = totalDays ? (totalDiaper / totalDays).toFixed(1) : 0;
+
+// 일일 평균 수면: 수면 기록 있는 날 기준, 낮잠+밤잠 합산 시간
+const sleepDays = active.filter(d => d.nap_min > 0 || d.night_min > 0);
+const totalSleepMin = sleepDays.reduce((s, d) => s + d.nap_min + d.night_min, 0);
+const kpiDailySleep = sleepDays.length ? (totalSleepMin / sleepDays.length / 60).toFixed(1) : 0;
+
+document.getElementById('kpi-daily-ml').innerText = kpiDailyMl.toLocaleString();
+document.getElementById('kpi-per-ml').innerText = kpiPerMl.toLocaleString();
+document.getElementById('kpi-daily-diaper').innerText = kpiDailyDiaper;
+document.getElementById('kpi-daily-sleep').innerText = kpiDailySleep;
+
+// 초기 실행
+initCharts();
+
+// 테이블 생성 (모바일 카드 + 데스크탑)
+const tbody = document.getElementById('table-body');
+const cardList = document.getElementById('card-list');
+active.forEach(d => {
+    const ml = d.formula_total_ml;
+    let tag = '', tagClass = '';
+    if (ml >= 900) { tag = '최고'; tagClass = 'tag-high'; }
+    else if (ml >= 800) { tag = '양호'; tagClass = 'tag-mid'; }
+    else { tag = '보통'; tagClass = 'tag-normal'; }
+
+    const nap = d.nap_min ? d.nap_min + '분' : '-';
+    const night = d.night_min ? d.night_min + '분' : '-';
+    const date = d.date_str.slice(5).replace('-', '/');
+
+    tbody.innerHTML += `<tr>
+    <td><strong>${date}</strong></td>
+    <td>생후 ${d.day}일</td>
+    <td>${ml.toLocaleString()} ml <span class="tag ${tagClass}">${tag}</span></td>
+    <td>${d.formula_count}회</td>
+    <td>${d.formula_avg_ml.toFixed(1)} ml</td>
+    <td class="pee-icon">💧 ${d.diaper_pee}회</td>
+    <td class="poo-icon">💩 ${d.diaper_poo}회</td>
+    <td>${nap}</td>
+    <td>${night}</td>
+  </tr>`;
+
+    cardList.innerHTML += `
+  <div class="card-item">
+    <div class="card-item-header">
+      <span class="card-date">📅 ${date}</span>
+      <span class="card-day">생후 ${d.day}일 <span class="tag ${tagClass}">${tag}</span></span>
+    </div>
+    <div class="card-grid">
+      <div class="card-cell">
+        <div class="card-cell-label">🍼 분유</div>
+        <div class="card-cell-value">${ml.toLocaleString()}<small style="font-size:.65rem">ml</small></div>
+      </div>
+      <div class="card-cell">
+        <div class="card-cell-label">🍼 횟수</div>
+        <div class="card-cell-value">${d.formula_count}<small style="font-size:.65rem">회</small></div>
+      </div>
+      <div class="card-cell">
+        <div class="card-cell-label">📊 1회 평균</div>
+        <div class="card-cell-value">${d.formula_avg_ml.toFixed(0)}<small style="font-size:.65rem">ml</small></div>
+      </div>
+      <div class="card-cell">
+        <div class="card-cell-label">💧 소변</div>
+        <div class="card-cell-value" style="color:#0ea5e9">${d.diaper_pee}<small style="font-size:.65rem">회</small></div>
+      </div>
+      <div class="card-cell">
+        <div class="card-cell-label">💩 대변</div>
+        <div class="card-cell-value" style="color:#a16207">${d.diaper_poo}<small style="font-size:.65rem">회</small></div>
+      </div>
+      <div class="card-cell">
+        <div class="card-cell-label">😴 수면</div>
+        <div class="card-cell-value" style="font-size:.78rem">${nap !== '-' ? '낮' + nap : ''} ${night !== '-' ? '밤' + night : night}</div>
+      </div>
+    </div>
+  </div>`;
+});
+
+</script>
+</body>
+
+</html>
