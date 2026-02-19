@@ -672,8 +672,8 @@
     <!-- ─── 트렌드 토글 (분유수유트렌드 ~ 수면패턴) ─── -->
     <div class="toggle-container">
       <div class="view-toggle">
-        <button id="btn-daily" class="toggle-btn active" onclick="toggleView('daily')">일단위</button>
-        <button id="btn-weekly" class="toggle-btn" onclick="toggleView('weekly')">주단위</button>
+        <button id="btn-daily" class="toggle-btn" onclick="toggleView('daily')">일단위</button>
+        <button id="btn-weekly" class="toggle-btn active" onclick="toggleView('weekly')">주단위</button>
       </div>
     </div>
 
@@ -2361,7 +2361,7 @@
 
 
 // ─── 전역 변수 & 유틸 ───
-let currentMode = 'daily'; // 'daily' or 'weekly'
+let currentMode = 'weekly'; // 'daily' or 'weekly'
 let charts = {}; // 차트 인스턴스 저장
 
 // 데이터 필터링 (분유량 있는 날만)
@@ -2437,23 +2437,23 @@ const X_AXIS_MOBILE = isMobile ? {
     ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }
 } : {};
 
-// 차트 초기화 함수
+// 차트 초기화 함수 (기본값: 주단위)
 function initCharts() {
     // 1. 분유
     const ctx1 = document.getElementById('formulaBarLine').getContext('2d');
     charts.formula = new Chart(ctx1, {
         data: {
-            labels: dailyLabels,
+            labels: weeklyLabels,
             datasets: [
                 {
                     type: 'bar', label: '섭취량 (ml)',
-                    data: active.map(d => d.formula_total_ml),
+                    data: weeklyData.map(d => d.formula_total_ml),
                     backgroundColor: 'rgba(255,126,182,0.75)',
                     borderRadius: 6, order: 2, yAxisID: 'y'
                 },
                 {
                     type: 'line', label: '횟수',
-                    data: active.map(d => d.formula_count),
+                    data: weeklyData.map(d => d.formula_count),
                     borderColor: '#a78bfa', borderWidth: 2, pointRadius: 3,
                     tension: 0.3, yAxisID: 'y2', order: 1
                 }
@@ -2476,10 +2476,10 @@ function initCharts() {
     charts.avg = new Chart(ctx2, {
         type: 'line',
         data: {
-            labels: dailyLabels,
+            labels: weeklyLabels,
             datasets: [{
                 label: '1회 평균 (ml)',
-                data: active.map(d => d.formula_avg_ml),
+                data: weeklyData.map(d => d.formula_avg_ml),
                 borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',
                 borderWidth: 2, pointRadius: 3, fill: true, tension: 0.4
             }]
@@ -2496,10 +2496,10 @@ function initCharts() {
     charts.diaper = new Chart(ctx3, {
         type: 'bar',
         data: {
-            labels: dailyLabels,
+            labels: weeklyLabels,
             datasets: [
-                { label: '소변', data: active.map(d => d.diaper_pee), backgroundColor: '#60c8f5', borderRadius: 4 },
-                { label: '대변', data: active.map(d => d.diaper_poo), backgroundColor: '#fbbf24', borderRadius: 4 }
+                { label: '소변', data: weeklyData.map(d => d.diaper_pee), backgroundColor: '#60c8f5', borderRadius: 4 },
+                { label: '대변', data: weeklyData.map(d => d.diaper_poo), backgroundColor: '#fbbf24', borderRadius: 4 }
             ]
         },
         options: {
@@ -2531,10 +2531,10 @@ function initCharts() {
     charts.sleep = new Chart(ctx5, {
         type: 'bar',
         data: {
-            labels: dailyLabels, // 전체 데이터 쓰되 0인건 무시됨? 아니 active 기준이라 괜찮음
+            labels: weeklyLabels,
             datasets: [
-                { label: '낮잠(분)', data: active.map(d => d.nap_min), backgroundColor: '#60c8f5', borderRadius: 4 },
-                { label: '밤잠(분)', data: active.map(d => d.night_min), backgroundColor: '#7c3aed', borderRadius: 4 }
+                { label: '낮잠(분)', data: weeklyData.map(d => d.nap_min), backgroundColor: '#60c8f5', borderRadius: 4 },
+                { label: '밤잠(분)', data: weeklyData.map(d => d.night_min), backgroundColor: '#7c3aed', borderRadius: 4 }
             ]
         },
         options: {
@@ -2549,9 +2549,9 @@ function initCharts() {
     charts.sleepLine = new Chart(ctx6, {
         type: 'line',
         data: {
-            labels: dailyLabels,
+            labels: weeklyLabels,
             datasets: [{
-                label: '밤잠 평균(분)', data: active.map(d => d.night_avg_min),
+                label: '밤잠 평균(분)', data: weeklyData.map(d => d.night_avg_min),
                 borderColor: '#7c3aed', borderWidth: 2, pointRadius: 3, tension: 0.4
             }]
         },
@@ -2651,8 +2651,9 @@ document.getElementById('kpi-per-ml').innerText = kpiPerMl.toLocaleString();
 document.getElementById('kpi-daily-diaper').innerText = kpiDailyDiaper;
 document.getElementById('kpi-daily-sleep').innerText = kpiDailySleep;
 
-// 초기 실행
+// 초기 실행 (주단위 기본값)
 initCharts();
+updateChartTitles('weekly');
 
 // 테이블 생성 (모바일 카드 + 데스크탑)
 const tbody = document.getElementById('table-body');
