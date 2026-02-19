@@ -465,6 +465,18 @@
     }
 
     /* ════════════════════════════════
+       📐 중간 화면: 2열 차트 → 1열 (≤ 900px)
+       ════════════════════════════════ */
+    @media (max-width: 900px) {
+      .chart-two-col {
+        grid-template-columns: 1fr;
+      }
+      .sleep-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /*
        📱 모바일 반응형 (≤ 680px)
        ════════════════════════════════ */
     @media (max-width: 680px) {
@@ -531,14 +543,7 @@
         font-size: .85rem;
       }
 
-      /* 2열 → 1열 */
-      .chart-two-col {
-        grid-template-columns: 1fr;
-      }
-
-      .sleep-grid {
-        grid-template-columns: 1fr;
-      }
+      /* (2열→1열은 900px 이하에서 별도 처리) */
 
       /* 차트 높이 축소 */
       .chart-wrap {
