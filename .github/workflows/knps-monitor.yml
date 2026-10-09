@@ -6,7 +6,6 @@ name: KNPS campsite monitor
 on:
   push:
     branches: [claude/knps-campsite-monitor-m9z709]
-    paths: [knps_monitor.py, .github/workflows/knps-monitor.yml]
   workflow_dispatch:
 
 concurrency:
