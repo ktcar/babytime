@@ -27,7 +27,7 @@ INTERVAL = 180           # 3분
 JITTER = 30              # 0~30초 랜덤 추가 지연
 
 KST = timezone(timedelta(hours=9))
-END_AT = datetime(2026, 10, 10, 18, 0, tzinfo=KST)
+END_AT = datetime(2026, 10, 10, 11, 0, tzinfo=KST)
 
 BASE = "https://res.knps.or.kr"
 REMAIN_PAGE = BASE + "/reservation/searchCampRemainSite.do"
@@ -183,7 +183,7 @@ def main():
         time.sleep(min(wait, remaining))
     log("종료 시각 도달 → 감시 종료")
     if ran and datetime.now(KST) >= END_AT:
-        notify_telegram("⏹️ 10/10 18시가 지나 감시를 종료했습니다.")
+        notify_telegram("⏹️ 10/10 11시가 되어 감시를 종료했습니다.")
 
 
 def check():
