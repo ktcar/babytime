@@ -92,7 +92,8 @@ class Client:
 
 def bot_token():
     """붙여넣기 실수(공백, 따옴표, 앞의 bot)를 정리한 텔레그램 봇 토큰."""
-    t = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip().strip('"\'').strip()
+    # 휴대폰에서 줄바꿈된 토큰을 복사하면 중간에 공백/줄바꿈이 섞이므로 모두 제거
+    t = "".join(os.environ.get("TELEGRAM_BOT_TOKEN", "").split()).strip('"\'')
     return t[3:] if t.lower().startswith("bot") else t
 
 
