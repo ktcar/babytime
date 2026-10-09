@@ -90,16 +90,20 @@ class Client:
 
 
 def notify_telegram(text):
-    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not (token and chat):
-        return
+        return False
     try:
         r = requests.post(f"https://api.telegram.org/bot{token}/sendMessage", timeout=15,
                           data={"chat_id": chat, "text": text})
         if not r.ok:
-            log(f"텔레그램 전송 실패: HTTP {r.status_code}")
+            desc = r.json().get("description", "") if "json" in r.headers.get("Content-Type", "") else ""
+            log(f"텔레그램 전송 실패: HTTP {r.status_code} {desc}")
+        return r.ok
     except requests.RequestException as e:
         log(f"텔레그램 전송 오류: {type(e).__name__}")
+        return False
 
 
 def notify_mac(title, body):
@@ -174,7 +178,33 @@ def main():
         notify_telegram("⏹️ 10/10 18시가 지나 감시를 종료했습니다.")
 
 
+def check():
+    """설정 점검: 비밀값 유무, 봇 이름, 텔레그램 전송, 사이트 1회 조회 (값 자체는 출력하지 않음)."""
+    for k in ("KNPS_ID", "KNPS_PW", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"):
+        v = os.environ.get(k, "")
+        log(f"{k}: {'설정됨' if v else '없음'} (길이 {len(v)})")
+    chat = os.environ.get("TELEGRAM_CHAT_ID", "")
+    log(f"TELEGRAM_CHAT_ID 숫자 여부: {chat.lstrip('-').isdigit()}")
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    if token:
+        try:
+            me = requests.get(f"https://api.telegram.org/bot{token}/getMe", timeout=15).json()
+            log(f"봇 확인: ok={me.get('ok')} 봇=@{me.get('result', {}).get('username')} {me.get('description', '')}")
+        except requests.RequestException as e:
+            log(f"봇 확인 오류: {type(e).__name__}")
+    log(f"텔레그램 테스트 전송: {notify_telegram('🔧 설정 점검: 이 메시지가 보이면 텔레그램 알림이 정상입니다.')}")
+    try:
+        c = Client(os.environ["KNPS_ID"], os.environ["KNPS_PW"])
+        n, w, cc, r = c.check()
+        log(f"사이트 조회 성공: 예약가능 {n} / 대기가능 {w} / 예약만료 {cc} / 예약불가 {r}")
+    except Exception as e:
+        log(f"사이트 조회 실패: {type(e).__name__}: {e}")
+
+
 if __name__ == "__main__":
+    if "--check" in sys.argv:
+        check()
+        sys.exit()
     try:
         main()
     except KeyboardInterrupt:
