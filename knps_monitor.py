@@ -9,6 +9,7 @@
   NOTIFY_START=1                        시작 시 텔레그램으로 첫 조회 결과 전송
 """
 import os
+import re
 import random
 import subprocess
 import sys
@@ -89,8 +90,14 @@ class Client:
             return self.fetch()
 
 
+def bot_token():
+    """붙여넣기 실수(공백, 따옴표, 앞의 bot)를 정리한 텔레그램 봇 토큰."""
+    t = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip().strip('"\'').strip()
+    return t[3:] if t.lower().startswith("bot") else t
+
+
 def notify_telegram(text):
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    token = bot_token()
     chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not (token and chat):
         return False
@@ -185,7 +192,13 @@ def check():
         log(f"{k}: {'설정됨' if v else '없음'} (길이 {len(v)})")
     chat = os.environ.get("TELEGRAM_CHAT_ID", "")
     log(f"TELEGRAM_CHAT_ID 숫자 여부: {chat.lstrip('-').isdigit()}")
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    raw = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    token = bot_token()
+    head, _, tail = token.partition(":")
+    log(f"토큰 모양: 원래 길이 {len(raw)}, 정리 후 {len(token)}, ':' 있음 {bool(_)}, "
+        f"앞부분 숫자 {head.isdigit()}({len(head)}자), 뒷부분 {len(tail)}자, "
+        f"공백/줄바꿈 포함 {any(ch.isspace() for ch in raw)}, 따옴표 포함 {any(ch in raw for ch in chr(34) + chr(39))}, "
+        f"정상 형식 {bool(re.fullmatch(r'[0-9]+:[A-Za-z0-9_-]{30,}', token))}")
     if token:
         try:
             me = requests.get(f"https://api.telegram.org/bot{token}/getMe", timeout=15).json()
